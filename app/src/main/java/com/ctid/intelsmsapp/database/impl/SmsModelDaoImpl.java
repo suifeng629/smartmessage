@@ -1,7 +1,6 @@
 package com.ctid.intelsmsapp.database.impl;
 
 import com.ctid.intelsmsapp.database.SmsModelDao;
-import com.ctid.intelsmsapp.entity.Company;
 import com.ctid.intelsmsapp.entity.Model;
 
 import java.util.List;
@@ -28,13 +27,9 @@ public class SmsModelDaoImpl implements SmsModelDao {
 
     }
 
-    @Override
-    public List<Model> findModelsByCompany(Company company) {
-        return null;
-    }
 
     @Override
     public void deleteAll() {
-
+        Model.deleteAll(Model.class);
     }
 }

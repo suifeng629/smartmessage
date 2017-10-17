@@ -1,7 +1,6 @@
 package com.ctid.intelsmsapp.database.impl;
 
 import com.ctid.intelsmsapp.database.SdkMenuDao;
-import com.ctid.intelsmsapp.entity.Company;
 import com.ctid.intelsmsapp.entity.Menu;
 
 import java.util.List;
@@ -15,27 +14,22 @@ public class SdkMenuDaoImpl implements SdkMenuDao {
 
     @Override
     public void save(Menu menu) {
-
+        menu.save();
     }
 
     @Override
     public List<Menu> findAll() {
-        return null;
+        return Menu.listAll(Menu.class);
     }
 
     @Override
     public void delete(Menu menu) {
-
+        menu.delete();
     }
 
-
-    @Override
-    public List<Menu> findMenusByCompany(Company company) {
-        return null;
-    }
 
     @Override
     public void deleteAll() {
-
+        Menu.deleteAll(Menu.class);
     }
 }
