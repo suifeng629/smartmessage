@@ -14,6 +14,7 @@ import com.ctid.intelsmsapp.entity.Menu;
 import com.ctid.intelsmsapp.entity.Model;
 import com.ctid.intelsmsapp.enums.SysConstants;
 import com.ctid.intelsmsapp.net.ISynDataService;
+import com.ctid.intelsmsapp.utils.FileUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -89,7 +90,7 @@ public class SynDataServiceImpl implements ISynDataService {
         try {
             //发起请求，获取数据
             conn = new HttpControllerServiceImpl();
-            String synData = conn.executeHttpsPost(SysConstants.INTEL_SMS_SERVERS_URL, null);
+            String synData = FileUtil.ReadFile("raw/initdata.json");
             System.out.println("同步数据请求结果为：" + synData);
 
             //String json数据转换为List<ReturnDataVo>
