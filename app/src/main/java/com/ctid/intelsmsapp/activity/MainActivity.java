@@ -15,7 +15,7 @@ import com.ctid.intelsmsapp.utils.LogUtil;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends DialogEnabledActivity {
+public class MainActivity extends DialogEnabledActivity {   
 
     private ListView messageListView;
     private Button newMessageButton;
