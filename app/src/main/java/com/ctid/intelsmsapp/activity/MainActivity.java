@@ -39,18 +39,15 @@ public class MainActivity extends DialogEnabledActivity {
         dataExists();
         insertNewCompany();
 
-        int flag = 7;
-        if (flag == 7) {
-            //获取用于显示短信会话列表的ListView控件
-            messageListView = (ListView) this.findViewById(R.id.messageListView);
-            //新建并为ListView设置自定义适配器，为控件加载需要显示的数据
-            MessageListAdapter adapter = new MessageListAdapter(this);
+        //获取用于显示短信会话列表的ListView控件
+        messageListView = (ListView) this.findViewById(R.id.messageListView);
+        //新建并为ListView设置自定义适配器，为控件加载需要显示的数据
+        MessageListAdapter adapter = new MessageListAdapter(this);
 
-            adapter.getMessageSessions();
-            messageListView.setAdapter(adapter);
-            //实时通知数据已更新
-            //adapter.notifyDataSetChanged();
-        }
+        adapter.getMessageSessions();
+        messageListView.setAdapter(adapter);
+        //实时通知数据已更新
+        //adapter.notifyDataSetChanged();
     }
 
     boolean dataExists() {
@@ -69,7 +66,7 @@ public class MainActivity extends DialogEnabledActivity {
         company.setNumId(new Random().nextInt());
         company.setTitle("Test company");
 
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             Menu menu = new Menu();
             menu.setMenuId(new Random().nextInt());
         }
