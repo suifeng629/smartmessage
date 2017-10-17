@@ -32,4 +32,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.satyan:sugar:1.5'
+    compile files('libs/android_api_3_5.jar')
 }
