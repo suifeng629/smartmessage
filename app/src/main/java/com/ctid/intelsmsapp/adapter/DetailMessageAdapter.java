@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.bean.MessageHolder;
 import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.ctid.intelsmsapp.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ctid.myandroiddemos.R;
 
 /**
  * ClassName: 类名称<br>
