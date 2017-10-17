@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface SmsModelDao {
 
-    void save(Model smsModel);
+    void save(Model model);
 
     List<Model> findAll();
 

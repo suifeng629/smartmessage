@@ -13,18 +13,18 @@ import java.util.List;
 public class SmsModelDaoImpl implements SmsModelDao {
 
     @Override
-    public void save(Model smsModel) {
-
+    public void save(Model model) {
+        model.save();
     }
 
     @Override
     public List<Model> findAll() {
-        return null;
+        return Model.listAll(Model.class);
     }
 
     @Override
     public void delete(Model model) {
-
+        model.delete();
     }
 
 
