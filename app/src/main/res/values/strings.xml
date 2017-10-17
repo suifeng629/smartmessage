@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">intelSmsApp</string>
+    <string name="msg_error_201">请求失败,请检查网络是否正常或使用CTNet登录,错误码201</string>
+    <string name="msg_error_202">请求失败,请稍后重试,错误码202</string>
+    <string name="msg_error_301">请求超时,请稍后再试,错误码301</string>
+    <string name="msg_error_302">失败,请重试,错误码302</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="success">成功</string>
+    <string name="loading">正在加载...</string>
+    <string name="titleName">短信列表</string>
+    <string name="detailTitleName">短信详情</string>
+    <string name="unkown">未知</string>
+</resources>

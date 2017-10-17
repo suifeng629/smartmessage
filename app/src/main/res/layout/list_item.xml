@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+
+>
+    <LinearLayout android:layout_width="60dip"
+                  android:layout_height="60dip"
+                  android:layout_margin="15dip"
+                  android:id="@+id/contact_image_ll">
+        <ImageView android:id="@+id/contact_image"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <TextView android:id="@+id/titleTextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentTop="true"
+              android:layout_marginTop="10dip"
+              android:layout_toRightOf="@id/contact_image_ll"
+              android:textSize="18sp"
+    />
+    <TextView android:id="@+id/descTextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_toRightOf="@id/contact_image_ll"
+              android:layout_below="@id/titleTextView"
+              android:textSize="10sp"
+    />
+
+    <TextView android:id="@+id/countTextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:textSize="18sp"
+              android:layout_marginTop="10dip"
+              android:layout_marginRight="10dip"
+    />
+    <TextView android:id="@+id/timeTextView"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentBottom="true"
+              android:textSize="15sp"
+              android:layout_marginRight="10dip"
+    />
+
+</RelativeLayout>

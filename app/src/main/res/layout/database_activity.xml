@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+              android:orientation="vertical"
+                tools:context="com.ctid.intelsmsapp.activity.DataBaseActivity">
+
+    <EditText
+            android:id="@+id/tv1"
+            android:layout_width="fill_parent"
+            android:layout_height="35dip"
+            android:hint="商户名称"
+            android:textSize="18sp"/>
+
+    <EditText
+            android:id="@+id/tv2"
+            android:layout_width="fill_parent"
+            android:layout_height="35dip"
+            android:hint="商户号码"
+            android:textSize="18sp"/>
+
+    <Button
+            android:id="@+id/btn_save"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:text="保存到数据库"/>
+    <Button
+            android:id="@+id/btn_query"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:text="查询数据库"/>
+    <TextView
+            android:id="@+id/tv3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+
+</LinearLayout>

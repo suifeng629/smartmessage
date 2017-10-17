@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="@dimen/dialog_height">
+
+        <LinearLayout
+            android:id="@+id/dialog_choose_layout_opr"
+            android:layout_width="@dimen/dialog_width"
+            android:layout_height="@dimen/dialog_choose_btn_height"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/dialog_choose_btn_positive"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_dialog_btn"
+                android:textColor="@color/title_txt_blue"
+                android:textSize="@dimen/btn_confirm_txt_size" />
+
+            <Button
+                android:id="@+id/dialog_choose_btn_negative"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_dialog_btn"
+                android:textColor="@color/title_txt_blue"
+                android:textSize="@dimen/btn_confirm_txt_size" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dialog_choose_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:padding="9dp"
+            android:lineSpacingExtra="4dp"
+            android:layout_above="@id/dialog_choose_layout_opr" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
