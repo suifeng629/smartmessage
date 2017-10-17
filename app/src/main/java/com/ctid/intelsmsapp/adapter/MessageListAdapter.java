@@ -17,7 +17,7 @@ import com.ctid.intelsmsapp.activity.DetailMessageActivity;
 import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.ctid.intelsmsapp.database.DataBaseHelper;
 import com.ctid.intelsmsapp.utils.LogUtil;
-import com.ctid.myandroiddemos.R;
+import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.bean.MessageHolder;
 import com.ctid.intelsmsapp.bean.UserInfo;
 
