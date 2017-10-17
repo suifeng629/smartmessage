@@ -1,6 +1,5 @@
 package com.ctid.intelsmsapp.database;
 
-import com.ctid.intelsmsapp.entity.Company;
 import com.ctid.intelsmsapp.entity.Menu;
 
 import java.util.List;
@@ -19,6 +18,4 @@ public interface SdkMenuDao {
     void delete(Menu menu);
 
     void deleteAll();
-
-    List<Menu> findMenusByCompany(Company company);
 }

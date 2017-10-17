@@ -1,6 +1,5 @@
 package com.ctid.intelsmsapp.database;
 
-import com.ctid.intelsmsapp.entity.Company;
 import com.ctid.intelsmsapp.entity.Model;
 
 import java.util.List;
@@ -20,5 +19,4 @@ public interface SmsModelDao {
 
     void deleteAll();
 
-    List<Model> findModelsByCompany(Company company);
 }
