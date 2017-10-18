@@ -1,50 +1,44 @@
 package com.ctid.intelsmsapp.utils;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
+ * File Utility
  * Created by jiangyanjun on 2017/10/17.
  */
 
 public class FileUtil {
+
     /**
-     * 读取txt文件的内容
-     * @param Path 想要读取的文件对象
-     * @return 返回文件内容
+     * Read raw file and return str
+     *
+     * @param context     Application context
+     * @param rawFileName Name of the raw file
+     * @return String of raw file
      */
-    public static String ReadFile(String Path){
-        BufferedReader reader = null;
-        String laststr = "";
-        try{
-            FileInputStream fileInputStream = new FileInputStream(Path);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-            reader = new BufferedReader(inputStreamReader);
-            String tempString = null;
-            while((tempString = reader.readLine()) != null){
-                laststr += tempString;
-            }
-            reader.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally{
-            if(reader != null){
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return laststr;
+    public static String readFile(Context context, String rawFileName) throws Exception {
+        int resId = context.getResources().getIdentifier(rawFileName, "raw", context.getPackageName());
+        InputStream inputStream = context.getResources().openRawResource(resId);
+        return readStrFromStream(inputStream);
     }
 
 
-    public static void main(String[] args){
+    private static String readStrFromStream(InputStream inputStream) throws Exception {
 
-        System.out.println(ReadFile("D:/sms_data.json"));
+        InputStreamReader reader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        StringBuilder stringBuilder = new StringBuilder();
+        String str;
+        while ((str = bufferedReader.readLine()) != null) {
+            stringBuilder.append(str);
+        }
+        bufferedReader.close();
+        inputStream.close();
+        return stringBuilder.toString();
     }
 
 
