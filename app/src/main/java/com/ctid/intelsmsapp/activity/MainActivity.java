@@ -1,21 +1,30 @@
 package com.ctid.intelsmsapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-
 import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.adapter.MessageListAdapter;
+import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.ctid.intelsmsapp.net.ISynDataService;
 import com.ctid.intelsmsapp.net.impl.SynDataServiceImpl;
+import com.ctid.intelsmsapp.utils.DBUtil;
 import com.ctid.intelsmsapp.utils.LogUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends DialogEnabledActivity {
 
     private ListView messageListView;
     private Button newMessageButton;
+    private MessageListAdapter adapter;
+    private Context mContext;
+    List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
 
 
     @Override
@@ -35,15 +44,9 @@ public class MainActivity extends DialogEnabledActivity {
 
         //获取用于显示短信会话列表的ListView控件
         messageListView = (ListView) this.findViewById(R.id.messageListView);
-        //新建并为ListView设置自定义适配器，为控件加载需要显示的数据
-        MessageListAdapter adapter = new MessageListAdapter(this);
 
-        adapter.getMessageSessions();
-        messageListView.setAdapter(adapter);
-        //实时通知数据已更新
-        //adapter.notifyDataSetChanged();
-
-        initData();
+        mContext = this;
+        new InitDBTask().execute();
     }
 
     private void initData() {
@@ -52,6 +55,59 @@ public class MainActivity extends DialogEnabledActivity {
             synDataService.autoSysPlatDataToLocalDB(3);
         } catch (Exception e) {
             LogUtil.e(e.toString(), e);
+        }
+    }
+
+    private class InitDBTask extends AsyncTask<Void, Integer, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoadingDialog(getString(R.string.loading));
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                initData();
+            } catch (Exception e) {
+                LogUtil.e(e.toString(), e);
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            LogUtil.d("InitDBTask onPostExecute");
+            new InitMessageListTask().execute();
+        }
+    }
+
+    private class InitMessageListTask extends AsyncTask<Void, Integer, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            try {
+                //为控件加载需要显示的数据
+                messageInfoList = DBUtil.getMessageSessions(mContext);
+                adapter = new MessageListAdapter(mContext, messageInfoList);
+            } catch (Exception e) {
+                LogUtil.e(e.toString(), e);
+            }
+            return "success";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            LogUtil.d("InitMessageListTask onPostExecute");
+            //新建并为ListView设置自定义适配器，为控件加载需要显示的数据
+            dismissLoadingDialog();
+            messageListView.setAdapter(adapter);
         }
     }
 
