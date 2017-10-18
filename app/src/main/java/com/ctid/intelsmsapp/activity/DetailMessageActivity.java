@@ -9,12 +9,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.adapter.DetailMessageAdapter;
 import com.ctid.intelsmsapp.utils.LogUtil;
+import com.ctid.intelsmsapp.entity.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,13 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         threadId = intent.getStringExtra("threadId");
         number = intent.getStringExtra("number");
         //商户号码判断底部菜单布局
+        for(int i = 0; i < 3; i++){
+            Menu menu = new Menu();
+            menu.setMenuLevel(1);
+            menu.setMenuName("菜单" + i);
+            menu.setMenuSort(i + 1);
+            menuList.add(menu);
+        }
         if ("14".equals(threadId) && menuList != null && menuList.size() > 0) {
             ll_menu.setVisibility(View.VISIBLE);
             ll_input.setVisibility(View.GONE);
