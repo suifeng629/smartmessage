@@ -87,30 +87,27 @@ public class DBUtil {
                 phoneAndUnread[0]存放电话号码
                 根据号码查询本地db，获取商户信息（商户名称，图标等）
                 */
-                //userInfo = dbHelper.queryByNumberSql(phoneAndUnread[0]);
-                Company company = new Company();
-                if (phoneAndUnread[0].equals("+8613370123507")) {
-                    company.setIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508469296&di=0d77ed1227a0bbabe5f87bd2392b8a21&imgtype=jpg&er=1&src=http%3A%2F%2Fm.qqzhi.com%2Fupload%2Fimg_4_258291489D691308751_23.jpg");
-                    company.setNumber("+8613370123507");
-                    company.setNumId(new Random().nextInt());
-                    company.setTitle("Test company");
+                List<Company> companyList = Company.find(Company.class, "number = ?", phoneAndUnread[0]);
+                if (companyList != null && companyList.size() > 0) {
+                    Company company = companyList.get(0);
+                    if (company != null && company.getTitle() != null) {
+                        smsinfo.setContactName(company.getTitle());
+                        smsinfo.setContactMes(company.getTitle());
+                        smsinfo.setPhoneUrl(company.getIcon());
+                    } else {
+                        smsinfo.setContactPhoto(BitmapFactory.decodeResource(
+                                mContext.getResources(), R.drawable.icon));
+                        smsinfo.setContactMes(phone);
+                    }
+                }else {
+                    smsinfo.setContactPhoto(BitmapFactory.decodeResource(
+                            mContext.getResources(), R.drawable.icon));
+                    smsinfo.setContactMes(phone);
                 }
 
                 //获得会话的未读短信与所有短信数
                 String final_count = unreadCount + "/" + count_mms;
-
                 smsinfo.setContactNumber(phone);
-                if (company != null && company.getTitle() != null) {
-                    smsinfo.setContactName(company.getTitle());
-                    smsinfo.setContactMes(company.getTitle());
-                    smsinfo.setPhoneUrl(company.getIcon());
-                } else {
-                    smsinfo.setContactPhoto(BitmapFactory.decodeResource(
-                            mContext.getResources(), R.drawable.icon));
-                    //smsinfo.setContactName(mContext.getResources().getString(R.string.unkown));
-                    smsinfo.setContactMes(phone);
-                }
-
                 smsinfo.setDate(date_mms);
                 smsinfo.setSmsbody(last_mms);
                 smsinfo.setType(type);

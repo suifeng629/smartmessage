@@ -106,8 +106,8 @@ public class MainActivity extends DialogEnabledActivity {
         protected void onPostExecute(String result) {
             LogUtil.d("InitMessageListTask onPostExecute");
             //新建并为ListView设置自定义适配器，为控件加载需要显示的数据
-            dismissLoadingDialog();
             messageListView.setAdapter(adapter);
+            dismissLoadingDialog();
         }
     }
 
