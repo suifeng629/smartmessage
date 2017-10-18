@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * ClassName: 类名称<br>
@@ -99,7 +98,7 @@ public class DBUtil {
                                 mContext.getResources(), R.drawable.icon));
                         smsinfo.setContactMes(phone);
                     }
-                }else {
+                } else {
                     smsinfo.setContactPhoto(BitmapFactory.decodeResource(
                             mContext.getResources(), R.drawable.icon));
                     smsinfo.setContactMes(phone);
@@ -181,5 +180,82 @@ public class DBUtil {
             }
         }
         return phoneAndUnread;
+    }
+
+    /**
+     * 短信详情列表查询
+     *
+     * @param thread_id 根据thread_id 检索sms库， 获得该会话包含的信息
+     * @return
+     */
+    public static List<MessageInfo> getDetailMessages(Context context, String thread_id) {
+        Cursor detailMessagesCursor = null;
+        ContentResolver resolver = null;
+        //存储信息会话中所有来往短信的列表
+        List<MessageInfo> infos = new ArrayList<MessageInfo>();
+
+        /**
+         获取短信的各种信息 ，短信数据库sms表结构如下：
+         _id：短信序号，如100　　
+         　 　 thread_id：对话的序号，如100，与同一个手机号互发的短信，其序号是相同的            　　
+         　  　address：发件人地址，即手机号，如+8613811810000            　　
+         　  　person：发件人，如果发件人在通讯录中则为具体姓名，陌生人为null            　　
+         　  　date：日期，long型，如1256539465022，可以对日期显示格式进行设置            　　
+         　  　protocol：协议0SMS_RPOTO短信，1MMS_PROTO彩信            　　
+         　  　read：是否阅读0未读，1已读            　　
+         　  　status：短信状态-1接收，0complete,64pending,128failed            　　
+         　  　type：短信类型1是接收到的，2是已发出            　　
+         　  　body：短信具体内容            　　
+         　  　service_center：短信服务中心号码编号，如+8613800755500
+         */
+        try {
+            String[] projection = new String[]
+                    {"thread_id", "address", "person", "body", "date", "type", "read"};
+            Uri uri = Uri.parse(SysConstants.SMS_URI_ALL);
+            resolver = context.getContentResolver();
+
+            detailMessagesCursor = resolver.query
+                    (
+                            uri,
+                            projection,
+                            "thread_id=?",
+                            new String[]{thread_id},
+                            "date asc"
+                    );
+
+            if (detailMessagesCursor == null) {
+                return null;
+            }
+            if (detailMessagesCursor.getCount() == 0) {
+                detailMessagesCursor.close();
+                detailMessagesCursor = null;
+                return null;
+            }
+
+            detailMessagesCursor.moveToFirst();
+            while (detailMessagesCursor.isAfterLast() == false) {
+                int nameColumn = detailMessagesCursor.getColumnIndex("person");
+                int phoneNumberColumn = detailMessagesCursor.getColumnIndex("address");
+                int smsbodyColumn = detailMessagesCursor.getColumnIndex("body");
+                int dateColumn = detailMessagesCursor.getColumnIndex("date");
+                int typeColumn = detailMessagesCursor.getColumnIndex("type");
+
+                MessageInfo smsinfo = new MessageInfo();
+                //将信息会话的信息内容和信息类型（收到或发出）存入infos中
+                smsinfo.setSmsbody(detailMessagesCursor.getString(smsbodyColumn));
+                smsinfo.setType(detailMessagesCursor.getString(typeColumn));
+                infos.add(smsinfo);
+                detailMessagesCursor.moveToNext();
+            }
+
+        } catch (Exception e) {
+            LogUtil.e("Getting messages by thread id" + e.toString());
+        } finally {
+            if (detailMessagesCursor != null) {
+                detailMessagesCursor.close();
+                detailMessagesCursor = null;
+            }
+        }
+        return infos;
     }
 }

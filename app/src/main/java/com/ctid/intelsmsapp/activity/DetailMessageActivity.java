@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.*;
 import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.adapter.DetailMessageAdapter;
-import com.ctid.intelsmsapp.utils.LogUtil;
+import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.ctid.intelsmsapp.entity.Menu;
+import com.ctid.intelsmsapp.utils.DBUtil;
+import com.ctid.intelsmsapp.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +44,13 @@ public class DetailMessageActivity extends DialogEnabledActivity {
     private TextView tv2;
     private TextView tv3;
     List<com.ctid.intelsmsapp.entity.Menu> menuList = new ArrayList<com.ctid.intelsmsapp.entity.Menu>();
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_message);
+        mContext = this;
         //匹配号码显示的底部菜单布局
         ll_menu = (LinearLayout) findViewById(R.id.id_bottom_menu_layout);
         //不匹配好吗显示的底部输入框菜单
@@ -56,7 +60,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         threadId = intent.getStringExtra("threadId");
         number = intent.getStringExtra("number");
         //商户号码判断底部菜单布局
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             Menu menu = new Menu();
             menu.setMenuLevel(1);
             menu.setMenuName("菜单" + i);
@@ -75,7 +79,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         clickMenu();
 
         detailMessagesListView = (ListView) this.findViewById(R.id.detailMessageListView);
-        detailMessagesAdapter = new DetailMessageAdapter(this);
+
         new LoadingMessageTask().execute();
 
     }
@@ -91,7 +95,8 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                detailMessagesAdapter.getDetailMessages(threadId);
+                List<MessageInfo> infos = DBUtil.getDetailMessages(mContext, threadId);
+                detailMessagesAdapter = new DetailMessageAdapter(mContext, infos);
             } catch (Exception e) {
                 LogUtil.e(e.toString(), e);
             }
@@ -104,14 +109,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
             detailMessagesListView.setAdapter(detailMessagesAdapter);
             //实时通知数据已更新
             detailMessagesAdapter.notifyDataSetChanged();
-            if (result == null) {
-                dismissLoadingDialog();
-
-            } else {
-
-                dismissLoadingDialog();
-            }
-
+            dismissLoadingDialog();
         }
     }
 
@@ -128,7 +126,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
                 if (menuList.get(i).getMenuLevel() == 1 && menuList.get(i).getMenuSort() == 1) {
                     tv1.setText(menuList.get(i).getMenuName());
                     final String url = menuList.get(i).getMenuUrl();
-                    if(!TextUtils.isEmpty(url)){
+                    if (!TextUtils.isEmpty(url)) {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -137,16 +135,16 @@ public class DetailMessageActivity extends DialogEnabledActivity {
                         });
                     }
                     //子菜单判断
-                    for(int j = 0; j < menuList.size(); j++){
-                        if(menuList.get(j).getMenuParent() == menuList.get(i).getMenuId()
-                                && menuList.get(j).getMenuLevel() == 2){
+                    for (int j = 0; j < menuList.size(); j++) {
+                        if (menuList.get(j).getMenuParent() == menuList.get(i).getMenuId()
+                                && menuList.get(j).getMenuLevel() == 2) {
 
                         }
                     }
                 } else if (menuList.get(i).getMenuLevel() == 1 && menuList.get(i).getMenuSort() == 2) {
                     tv2.setText(menuList.get(i).getMenuName());
                     final String url = menuList.get(i).getMenuUrl();
-                    if(!TextUtils.isEmpty(url)){
+                    if (!TextUtils.isEmpty(url)) {
                         tv2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -157,7 +155,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
                 } else if (menuList.get(i).getMenuLevel() == 1 && menuList.get(i).getMenuSort() == 3) {
                     tv3.setText(menuList.get(i).getMenuName());
                     final String url = menuList.get(i).getMenuUrl();
-                    if(!TextUtils.isEmpty(url)){
+                    if (!TextUtils.isEmpty(url)) {
                         tv3.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -199,7 +197,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
 
     /**
      * 跳转url
-     * */
+     */
     public static final void openURL(Context context, String url) {
         launchIntent(context, new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
