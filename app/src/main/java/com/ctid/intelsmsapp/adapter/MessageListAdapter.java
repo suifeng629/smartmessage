@@ -5,26 +5,31 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.ctid.intelsmsapp.activity.DetailMessageActivity;
-import com.ctid.intelsmsapp.bean.MessageInfo;
-import com.ctid.intelsmsapp.database.DataBaseHelper;
-import com.ctid.intelsmsapp.utils.LogUtil;
 import com.ctid.intelsmsapp.R;
+import com.ctid.intelsmsapp.activity.DetailMessageActivity;
 import com.ctid.intelsmsapp.bean.MessageHolder;
+import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.ctid.intelsmsapp.bean.UserInfo;
+import com.ctid.intelsmsapp.database.DataBaseHelper;
+import com.ctid.intelsmsapp.entity.Company;
+import com.ctid.intelsmsapp.utils.LogUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * ClassName: 类名称<br>
@@ -149,43 +154,29 @@ public class MessageListAdapter extends BaseAdapter {
                 phoneAndUnread[0]存放电话号码
                 根据号码查询本地db，获取商户信息（商户名称，图标等）
                 */
-                userInfo = dbHelper.queryByNumberSql(phoneAndUnread[0]);
+                //userInfo = dbHelper.queryByNumberSql(phoneAndUnread[0]);
+                Company company = new Company();
+                if(phoneAndUnread[0].equals("+8613370123507")){
+                    company.setIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1508469296&di=0d77ed1227a0bbabe5f87bd2392b8a21&imgtype=jpg&er=1&src=http%3A%2F%2Fm.qqzhi.com%2Fupload%2Fimg_4_258291489D691308751_23.jpg");
+                    company.setNumber("+8613370123507");
+                    company.setNumId(new Random().nextInt());
+                    company.setTitle("Test company");
+                }
 
                 //获得会话的未读短信与所有短信数
                 String final_count = unreadCount + "/" + count_mms;
 
                 smsinfo.setContactNumber(phone);
-                if (userInfo != null) {
-                    if (!TextUtils.isEmpty(userInfo.getUserName())) {
-                        smsinfo.setContactName(userInfo.getUserName());
-                        smsinfo.setContactMes(userInfo.getUserName());
-                    } else {
-                        //smsinfo.setContactName(mContext.getResources().getString(R.string.unkown));
-                        smsinfo.setContactMes(phone);
-                    }
-                    //如果有该信息会话人头像，则设置已有头像，如果没有则给他设置一个默认的头像
-                    if (!TextUtils.isEmpty(userInfo.getUserIcon())) {
-                        //smsinfo.setContactName(userInfo.getUserName());
-                    } else {
-                        smsinfo.setContactPhoto(BitmapFactory.decodeResource(
-                                mContext.getResources(), R.drawable.icon));
-                    }
-                    /*if (contact.getPhotoUri() == null){
-                        smsinfo.setContactPhoto(BitmapFactory.decodeResource(
-                                mContext.getResources(), R.drawable.icon));
-                    }else{
-                        Uri photoUri = contact.getPhotoUri();
-                        InputStream input = ContactsContract.Contacts.
-                                openContactPhotoInputStream(resolver, photoUri);
-                        smsinfo.setContactPhoto(BitmapFactory.decodeStream(input));
-                    }*/
-                } else {
+                if(company != null && company.getTitle() != null){
+                    smsinfo.setContactName(company.getTitle());
+                    smsinfo.setContactMes(company.getTitle());
+                    smsinfo.setPhoneUrl(company.getIcon());
+                }else {
                     smsinfo.setContactPhoto(BitmapFactory.decodeResource(
                             mContext.getResources(), R.drawable.icon));
                     //smsinfo.setContactName(mContext.getResources().getString(R.string.unkown));
                     smsinfo.setContactMes(phone);
                 }
-
 
                 smsinfo.setDate(date_mms);
                 smsinfo.setSmsbody(last_mms);
@@ -303,7 +294,27 @@ public class MessageListAdapter extends BaseAdapter {
 
         messageHolder.getTvCount().setText("" + messageInfoList.get(position).getMessageCout());
         messageHolder.getTvTime().setText(messageInfoList.get(position).getDate());
-        messageHolder.getIvImage().setImageBitmap(messageInfoList.get(position).getContactPhoto());
+
+        String imageUri = messageInfoList.get(position).getPhoneUrl();
+        if(imageUri == null){
+            messageHolder.getIvImage().setImageBitmap(messageInfoList.get(position).getContactPhoto());
+        }else {
+            final ImageView imageView1 = messageHolder.getIvImage();
+            ImageLoaderConfiguration configuration = ImageLoaderConfiguration
+                    .createDefault(mContext);
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            imageLoader.init(configuration);
+            imageLoader.loadImage(imageUri, new SimpleImageLoadingListener(){
+                @Override
+                public void onLoadingComplete(String imageUri, View view,
+                                              Bitmap loadedImage) {
+                    super.onLoadingComplete(imageUri, view, loadedImage);
+                    //if (imageView1.getTag() != null && tmp.equals(imageView1.getTag()))
+                    imageView1.setImageBitmap(loadedImage);
+                }
+            });
+        }
+
 
         /*
          * 在短信主界面为每个短信会话设置监听事件，当选择点击某条会话时，跳转到显示该会话包含的所有信息记录的页面

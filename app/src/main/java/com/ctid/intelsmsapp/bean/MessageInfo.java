@@ -41,6 +41,7 @@ public class MessageInfo {
 
     private String contactNumber;
     private String contactName;
+    private String phoneUrl;
 
 
     public String getThreadId() {
@@ -102,5 +103,13 @@ public class MessageInfo {
 
     public void setContactName(String contactName) {
         this.contactName = contactName;
+    }
+
+    public String getPhoneUrl() {
+        return phoneUrl;
+    }
+
+    public void setPhoneUrl(String phoneUrl) {
+        this.phoneUrl = phoneUrl;
     }
 }

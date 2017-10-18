@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingTop="20dip"
+              android:paddingBottom="20dip"
+              android:background="@color/bg_gray"
+              android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:text="13:03"
+                android:textColor="@color/pop_gray"
+                android:textSize="24sp"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="40dp"
+            android:background="#33B6EA">
+        <TextView
+                android:id="@+id/codetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dip"
+                android:layout_centerVertical="true"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/code"
+                android:textColor="#fff"
+                android:textSize="34sp"/>
+
+        <ImageView
+                android:id="@+id/action_setting_ibtn"
+                android:src="@drawable/icon_right"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+            android:id="@+id/contentLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:text="@string/code"
+                android:textColor="#33B6EA"
+                android:textSize="34sp"/>
+
+        <TextView
+                android:id="@+id/code_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="3"
+                android:text="123456"
+                android:textSize="56sp"/>
+    </LinearLayout>
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:background="@color/colorAccent"/>
+    <TextView
+            android:id="@+id/list_item_code_text"
+            android:text="@string/smscontent"
+            android:textSize="18sp"
+            android:layout_margin="15dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <View
+            android:id="@+id/list_item_seperator"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:layout_marginLeft="5dip"
+            android:layout_marginRight="5dip"
+            android:background="@color/colorAccent"/>
+
+    <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/list_item_card_button_1"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dip"
+                android:background="@color/bg_gray"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="@string/copycode"
+                android:textSize="25sp"
+                android:textStyle="normal"/>
+
+    </LinearLayout>
+
+</LinearLayout>
