@@ -3,6 +3,7 @@ package com.ctid.intelsmsapp.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -14,6 +15,7 @@ import com.ctid.intelsmsapp.bean.MessageHolder;
 import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
@@ -33,12 +35,16 @@ public class MessageListAdapter extends BaseAdapter {
 
     //存储所有短信信息的列表
     List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
+    ImageLoaderConfiguration configuration;
+    ImageLoader imageLoader;
 
     //MessageListAdapter初始化构造方法
     public MessageListAdapter(Context context, List<MessageInfo> messageInfos) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         messageInfoList = messageInfos;
+        configuration = ImageLoaderConfiguration
+                .createDefault(mContext);
     }
 
     public Object getItem(int arg0) {
@@ -95,19 +101,30 @@ public class MessageListAdapter extends BaseAdapter {
             messageHolder.getIvImage().setImageBitmap(messageInfoList.get(position).getContactPhoto());
         } else {
             final ImageView imageView1 = messageHolder.getIvImage();
-            ImageLoaderConfiguration configuration = ImageLoaderConfiguration
-                    .createDefault(mContext);
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.init(configuration);
+            imageView1.setTag(imageUri);
+
+            imageLoader = ImageLoader.getInstance();
+            if (!imageLoader.isInited()) {
+                imageLoader.init(configuration);
+            }
             imageLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    super.onLoadingFailed(imageUri, view, failReason);
+                    imageView1.setImageBitmap(BitmapFactory.decodeResource(
+                            mContext.getResources(), R.drawable.icon));
+                }
+
                 @Override
                 public void onLoadingComplete(String imageUri, View view,
                                               Bitmap loadedImage) {
                     super.onLoadingComplete(imageUri, view, loadedImage);
-                    //if (imageView1.getTag() != null && tmp.equals(imageView1.getTag()))
-                    imageView1.setImageBitmap(loadedImage);
+                    if (imageView1.getTag() != null && imageUri.equals(imageView1.getTag())) {
+                        imageView1.setImageBitmap(loadedImage);
+                    }
                 }
             });
+            //imageLoader.getInstance().displayImage(imageUri, imageView1);
         }
 
 
@@ -120,6 +137,7 @@ public class MessageListAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 //通过Intent向显示短信会话包含的信息的Activity传递会话id
                 intent.putExtra("threadId", messageInfoList.get(position).getThreadId());
+                intent.putExtra("number", messageInfoList.get(position).getContactNumber());
                 intent.setClass(mContext, DetailMessageActivity.class);
                 mContext.startActivity(intent);
             }

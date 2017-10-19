@@ -59,15 +59,10 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         Intent intent = getIntent();
         threadId = intent.getStringExtra("threadId");
         number = intent.getStringExtra("number");
-        //商户号码判断底部菜单布局
-        for (int i = 0; i < 3; i++) {
-            Menu menu = new Menu();
-            menu.setMenuLevel(1);
-            menu.setMenuName("菜单" + i);
-            menu.setMenuSort(i + 1);
-            menuList.add(menu);
-        }
-        if ("14".equals(threadId) && menuList != null && menuList.size() > 0) {
+        //商户号码判断底部菜单布局,不为空说明有底部菜单
+        menuList = Menu.find(Menu.class, "number = ?", number);
+
+        if (menuList != null && menuList.size() > 0) {
             ll_menu.setVisibility(View.VISIBLE);
             ll_input.setVisibility(View.GONE);
         } else {
@@ -95,8 +90,11 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
+                LogUtil.d("sunzhiwei---infos start");
                 List<MessageInfo> infos = DBUtil.getDetailMessages(mContext, threadId);
+                LogUtil.d("sunzhiwei---infos end");
                 detailMessagesAdapter = new DetailMessageAdapter(mContext, infos);
+                LogUtil.d("sunzhiwei---detailMessagesAdapter");
             } catch (Exception e) {
                 LogUtil.e(e.toString(), e);
             }
