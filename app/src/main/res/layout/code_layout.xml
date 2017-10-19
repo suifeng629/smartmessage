@@ -65,7 +65,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="3"
-                android:text="123456"
+                android:text="此处是验证码"
                 android:textSize="56sp"/>
     </LinearLayout>
     <View
@@ -75,7 +75,7 @@
             android:layout_marginRight="5dip"
             android:background="@color/colorAccent"/>
     <TextView
-            android:id="@+id/list_item_code_text"
+            android:id="@+id/code_text"
             android:text="@string/smscontent"
             android:textSize="18sp"
             android:layout_margin="15dip"

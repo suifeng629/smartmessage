@@ -32,4 +32,17 @@ public class SysConstants {
      */
     public static final int DATA_SYN_TYPE_IN = 3;
 
+    /**
+     * 模板类型：火车票
+     */
+    public static final String MODLE_TYPE_TRAIN = "train";
+    /**
+     * 模板类型：银行
+     */
+    public static final String MODLE_TYPE_BANK = "bank";
+    /**
+     * 模板类型：验证码
+     */
+    public static final String MODLE_TYPE_CODE = "code";
+
 }

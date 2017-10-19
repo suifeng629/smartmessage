@@ -13,11 +13,11 @@
     <string name="unkown">未知</string>
     <string name="code">验证码</string>
     <string name="copycode">复制验证码</string>
-    <string name="smscontent">验证码262604，您正在向王欢（尾号2361）转账，金额495元。任何向您索要验证码的都是骗子，千万别给！[招商银行]</string>
+    <string name="smscontent">此处是验证码内容</string>
     <string name="train">火车票</string>
     <string name="train_des">目的地</string>
     <string name="train_gotime">出发时间：</string>
-    <string name="train_seat">4车3号下铺</string>
+    <string name="train_seat">车号下铺</string>
     <string name="smscontent_train">【铁路客服】订单EB28101259,蒋艳军您已购10月2日K916次4车3号下铺阜新南站21:30开</string>
     <string name="bank">银行</string>
     <string name="bank_remind">出账提醒：</string>

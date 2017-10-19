@@ -15,6 +15,7 @@ import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.adapter.DetailMessageAdapter;
 import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.ctid.intelsmsapp.entity.Menu;
+import com.ctid.intelsmsapp.entity.Model;
 import com.ctid.intelsmsapp.utils.DBUtil;
 import com.ctid.intelsmsapp.utils.LogUtil;
 
@@ -93,7 +94,8 @@ public class DetailMessageActivity extends DialogEnabledActivity {
                 LogUtil.d("sunzhiwei---infos start");
                 List<MessageInfo> infos = DBUtil.getDetailMessages(mContext, threadId);
                 LogUtil.d("sunzhiwei---infos end");
-                detailMessagesAdapter = new DetailMessageAdapter(mContext, infos);
+                List<Model> models = Model.find(Model.class, "number = ?", number);
+                detailMessagesAdapter = new DetailMessageAdapter(mContext, infos, models);
                 LogUtil.d("sunzhiwei---detailMessagesAdapter");
             } catch (Exception e) {
                 LogUtil.e(e.toString(), e);
