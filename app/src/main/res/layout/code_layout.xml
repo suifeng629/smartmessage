@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/padding_left_right"
+              android:paddingRight="@dimen/padding_left_right"
               android:paddingTop="@dimen/padding_top_bottom"
+              android:paddingBottom="@dimen/padding_top_bottom"
               android:background="@color/bg_gray"
               android:orientation="vertical">
 
@@ -58,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-thin"
                     android:text="@string/code"
-                    android:textSize="34sp"/>
+                    android:textSize="24sp"/>
 
             <TextView
                     android:id="@+id/code_1"
@@ -68,7 +71,7 @@
                     android:fontFamily="sans-serif-light"
                     android:textColor="#33B6EA"
                     android:text="此处是验证码"
-                    android:textSize="40sp"/>
+                    android:textSize="28sp"/>
         </LinearLayout>
         <View
                 android:layout_width="match_parent"
@@ -102,12 +105,11 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dip"
-                    android:background="@color/bg_gray"
+                    android:background="@color/help_gray"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:text="@string/copycode"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:textStyle="normal"/>
 
         </LinearLayout>
