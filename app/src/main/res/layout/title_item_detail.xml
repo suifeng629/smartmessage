@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:background="@color/model_title_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+    <ImageView
+            android:id="@+id/back"
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_left"/>
+
+    <TextView
+            android:id="@+id/company_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/back"
+            android:textStyle="bold"
+            android:textSize="@dimen/sms_body_textsize"
+            android:textColor="#ffffff"/>
+
+    <ImageView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
+            android:src="@drawable/icon"
+            android:padding="5dip"
+            android:gravity="center"/>
+</RelativeLayout>

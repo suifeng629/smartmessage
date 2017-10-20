@@ -14,6 +14,7 @@ import android.widget.*;
 import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.adapter.DetailMessageAdapter;
 import com.ctid.intelsmsapp.bean.MessageInfo;
+import com.ctid.intelsmsapp.entity.Company;
 import com.ctid.intelsmsapp.entity.Menu;
 import com.ctid.intelsmsapp.entity.Model;
 import com.ctid.intelsmsapp.utils.DBUtil;
@@ -44,7 +45,10 @@ public class DetailMessageActivity extends DialogEnabledActivity {
     private TextView tv1;
     private TextView tv2;
     private TextView tv3;
+    private ImageView back;
+    private TextView companyTitle;
     List<com.ctid.intelsmsapp.entity.Menu> menuList = new ArrayList<com.ctid.intelsmsapp.entity.Menu>();
+    List<Company> companyList;
     private Context mContext;
 
     @Override
@@ -60,16 +64,7 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         Intent intent = getIntent();
         threadId = intent.getStringExtra("threadId");
         number = intent.getStringExtra("number");
-        //商户号码判断底部菜单布局,不为空说明有底部菜单
-        menuList = Menu.find(Menu.class, "number = ?", number);
 
-        if (menuList != null && menuList.size() > 0) {
-            ll_menu.setVisibility(View.VISIBLE);
-            ll_input.setVisibility(View.GONE);
-        } else {
-            ll_menu.setVisibility(View.GONE);
-            ll_input.setVisibility(View.VISIBLE);
-        }
         //初始化菜单并设置菜单事件
         initBottomMenu();
         clickMenu();
@@ -91,6 +86,9 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
+                //商户号码判断底部菜单布局,不为空说明有底部菜单
+                menuList = Menu.find(Menu.class, "number = ?", number);
+                companyList = Company.find(Company.class, "number = ?", number);
                 LogUtil.d("sunzhiwei---infos start");
                 List<MessageInfo> infos = DBUtil.getDetailMessages(mContext, threadId);
                 LogUtil.d("sunzhiwei---infos end");
@@ -106,6 +104,19 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         @Override
         protected void onPostExecute(String result) {
             LogUtil.d("onPostExecute");
+            if (menuList != null && menuList.size() > 0) {
+                ll_menu.setVisibility(View.VISIBLE);
+                ll_input.setVisibility(View.GONE);
+            } else {
+                ll_menu.setVisibility(View.GONE);
+                ll_input.setVisibility(View.VISIBLE);
+            }
+            if (companyList != null && companyList.size() > 0) {
+                companyTitle.setText(companyList.get(0).getTitle());
+            } else {
+                companyTitle.setText(number);
+            }
+
             detailMessagesListView.setAdapter(detailMessagesAdapter);
             //实时通知数据已更新
             detailMessagesAdapter.notifyDataSetChanged();
@@ -121,6 +132,9 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         tv1 = (TextView) findViewById(R.id.text1);
         tv2 = (TextView) findViewById(R.id.text2);
         tv3 = (TextView) findViewById(R.id.text3);
+        back = (ImageView) findViewById(R.id.back);
+        companyTitle = (TextView) findViewById(R.id.company_title);
+
         if (ll_menu != null && ll_menu.getVisibility() == View.VISIBLE) {
             for (int i = 0; i < menuList.size(); i++) {
                 if (menuList.get(i).getMenuLevel() == 1 && menuList.get(i).getMenuSort() == 1) {
@@ -169,6 +183,13 @@ public class DetailMessageActivity extends DialogEnabledActivity {
     }
 
     private void clickMenu() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         input_edittext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
