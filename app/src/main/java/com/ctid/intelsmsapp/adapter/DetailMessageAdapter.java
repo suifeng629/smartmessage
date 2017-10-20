@@ -1,6 +1,7 @@
 package com.ctid.intelsmsapp.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,7 @@ public class DetailMessageAdapter extends BaseAdapter {
                         if (modelType.contains(SysConstants.MODLE_TYPE_CODE)) {
                             //验证码
                             convertView = mInflater.inflate(R.layout.code_layout, null);
+                            ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
                             //设置验证码code_1
                             ((TextView) convertView.findViewById(R.id.code_1)).setText(modelMap.get("code_1"));
                             //设置短信内容
@@ -93,6 +95,7 @@ public class DetailMessageAdapter extends BaseAdapter {
                         } else if (modelType.contains(SysConstants.MODLE_TYPE_TRAIN)) {
                             //火车票
                             convertView = mInflater.inflate(R.layout.train_layout, null);
+                            ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
 
                             ((TextView) convertView.findViewById(R.id.train_1)).setText(modelMap.get("train_1"));
                             ((TextView) convertView.findViewById(R.id.train_2)).setText(modelMap.get("train_2"));
@@ -103,8 +106,13 @@ public class DetailMessageAdapter extends BaseAdapter {
                         } else if (modelType.contains(SysConstants.MODLE_TYPE_BANK)) {
                             //银行
                             convertView = mInflater.inflate(R.layout.bank_layout, null);
+                            ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
+                            if(!TextUtils.isEmpty(infos.get(position).getContactName())){
+                                ((TextView) convertView.findViewById(R.id.banktitle)).setText(infos.get(position).getContactName());
+                            }
+
                             ((TextView) convertView.findViewById(R.id.bank_1)).setText(modelMap.get("bank_1"));
-                            ((TextView) convertView.findViewById(R.id.bank_2)).setText(modelMap.get("bank_2"));
+                            ((TextView) convertView.findViewById(R.id.bank_2)).setText("**********" + modelMap.get("bank_2"));
                             ((TextView) convertView.findViewById(R.id.bank_3)).setText(modelMap.get("bank_3"));
                             ((TextView) convertView.findViewById(R.id.bank_4)).setText(modelMap.get("bank_4"));
                             ((TextView) convertView.findViewById(R.id.bank_5)).setText(modelMap.get("bank_5"));

@@ -2,24 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:paddingTop="20dip"
-              android:paddingBottom="20dip"
+              android:paddingTop="@dimen/padding_top_bottom"
+              android:paddingBottom="@dimen/padding_top_bottom"
               android:background="@color/bg_gray"
               android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-thin"
-                android:text="13:03"
-                android:textColor="@color/pop_gray"
-                android:textSize="24sp"/>
+    <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-thin"
+            android:text="13:03"
+            android:textColor="@color/pop_gray"
+            android:textSize="@dimen/time_textsize"/>
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginBottom="40dp"
-            android:background="#33B6EA">
+            android:layout_height="@dimen/model_title_height"
+            android:background="@color/model_title_bg">
         <TextView
                 android:id="@+id/banktitle"
                 android:layout_width="wrap_content"
@@ -29,7 +28,7 @@
                 android:fontFamily="sans-serif-thin"
                 android:text="@string/bank"
                 android:textColor="#fff"
-                android:textSize="34sp"/>
+                android:textSize="@dimen/model_title_textsize"/>
 
         <ImageView
                 android:id="@+id/action_setting_ibtn"
@@ -38,37 +37,39 @@
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="8dip"/>
     </RelativeLayout>
 
     <LinearLayout
             android:id="@+id/contentLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/myborder"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="20dip"
-        android:layout_marginRight="20dip"
-        android:weightSum="100"
-        android:orientation="horizontal">
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:fontFamily="sans-serif-thin"
-            android:text="@string/bank_deal_count"
-            android:textColor="#33B6EA"
-            android:textSize="34sp"/>
-</LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-        android:orientation="vertical">
+                android:layout_marginTop="@dimen/model_title_bottom"
+                android:layout_marginLeft="@dimen/padding_top_bottom"
+                android:layout_marginRight="@dimen/padding_top_bottom"
+                android:weightSum="100"
+                android:orientation="horizontal">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/bank_deal_count"
+                    android:textColor="@color/model_title_bg"
+                    android:textSize="@dimen/sms_title_textsize"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_top_bottom"
+                android:layout_marginRight="@dimen/padding_top_bottom"
+                android:orientation="vertical">
             <TextView
                     android:id="@+id/bank_1"
                     android:layout_width="wrap_content"
@@ -76,16 +77,16 @@
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif-thin"
                     android:text="100.89"
-                    android:textColor="#33B6EA"
-                    android:textSize="34sp"/>
+                    android:textColor="@color/model_title_bg"
+                    android:textSize="@dimen/sms_title_textsize"/>
         </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginBottom="20dip"
+                android:layout_marginLeft="@dimen/padding_top_bottom"
+                android:layout_marginRight="@dimen/padding_top_bottom"
+                android:layout_marginBottom="@dimen/padding_top_bottom"
                 android:weightSum="100"
                 android:orientation="horizontal">
             <TextView
@@ -95,7 +96,7 @@
                     android:fontFamily="sans-serif-thin"
                     android:text="@string/bank_card_number"
                     android:textColor="#666666"
-                    android:textSize="24sp"/>
+                    android:textSize="@dimen/sms_title_textsize"/>
 
 
             <TextView
@@ -105,14 +106,14 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-light"
                     android:text="*********1234"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/sms_body_textsize"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginBottom="20dip"
+                android:layout_marginLeft="@dimen/padding_top_bottom"
+                android:layout_marginRight="@dimen/padding_top_bottom"
+                android:layout_marginBottom="@dimen/padding_top_bottom"
                 android:weightSum="100"
                 android:orientation="horizontal">
             <TextView
@@ -122,7 +123,7 @@
                     android:fontFamily="sans-serif-thin"
                     android:text="@string/bank_deal_time"
                     android:textColor="#666666"
-                    android:textSize="24sp"/>
+                    android:textSize="@dimen/sms_title_textsize"/>
 
 
             <TextView
@@ -132,41 +133,42 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-light"
                     android:text="9月26日18：35"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/sms_body_textsize"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginBottom="20dip"
+                android:layout_marginLeft="@dimen/padding_top_bottom"
+                android:layout_marginRight="@dimen/padding_top_bottom"
+                android:layout_marginBottom="@dimen/padding_top_bottom"
                 android:weightSum="100"
                 android:orientation="horizontal">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="40"
+                    android:layout_gravity="center"
                     android:fontFamily="sans-serif-thin"
                     android:text="@string/bank_buss_desc"
                     android:textColor="#666666"
-                    android:textSize="24sp"/>
+                    android:textSize="@dimen/sms_title_textsize"/>
 
 
             <TextView
                     android:id="@+id/bank_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_weight="60"
                     android:fontFamily="sans-serif-light"
                     android:text="消费"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/sms_body_textsize"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dip"
-                android:layout_marginRight="20dip"
-                android:layout_marginBottom="20dip"
+                android:layout_marginLeft="@dimen/padding_top_bottom"
+                android:layout_marginRight="@dimen/padding_top_bottom"
+                android:layout_marginBottom="@dimen/padding_top_bottom"
                 android:weightSum="100"
                 android:orientation="horizontal">
             <TextView
@@ -176,7 +178,7 @@
                     android:fontFamily="sans-serif-thin"
                     android:text="@string/bank_balance"
                     android:textColor="#666666"
-                    android:textSize="24sp"/>
+                    android:textSize="@dimen/sms_title_textsize"/>
 
 
             <TextView
@@ -186,7 +188,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-light"
                     android:text="9999"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/sms_body_textsize"/>
         </LinearLayout>
 
     </LinearLayout>

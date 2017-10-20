@@ -233,6 +233,8 @@ public class DBUtil {
             }
 
             detailMessagesCursor.moveToFirst();
+            Date date;
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             while (detailMessagesCursor.isAfterLast() == false) {
                 int nameColumn = detailMessagesCursor.getColumnIndex("person");
                 int phoneNumberColumn = detailMessagesCursor.getColumnIndex("address");
@@ -242,8 +244,14 @@ public class DBUtil {
 
                 MessageInfo smsinfo = new MessageInfo();
                 //将信息会话的信息内容和信息类型（收到或发出）存入infos中
+                List<Company> companies = Company.find(Company.class, "number = ?", detailMessagesCursor.getString(phoneNumberColumn));
+                if(companies != null && companies.size() > 0){
+                    smsinfo.setContactName(companies.get(0).getTitle());
+                }
                 smsinfo.setSmsbody(detailMessagesCursor.getString(smsbodyColumn));
                 smsinfo.setType(detailMessagesCursor.getString(typeColumn));
+                date = new Date(Long.parseLong(detailMessagesCursor.getString(dateColumn)));
+                smsinfo.setDate(dateFormat.format(date));
                 infos.add(smsinfo);
                 detailMessagesCursor.moveToNext();
             }
