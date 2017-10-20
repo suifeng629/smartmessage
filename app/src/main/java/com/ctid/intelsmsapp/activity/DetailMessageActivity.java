@@ -18,6 +18,7 @@ import com.ctid.intelsmsapp.entity.Company;
 import com.ctid.intelsmsapp.entity.Menu;
 import com.ctid.intelsmsapp.entity.Model;
 import com.ctid.intelsmsapp.utils.DBUtil;
+import com.ctid.intelsmsapp.utils.FuncString;
 import com.ctid.intelsmsapp.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -86,13 +87,14 @@ public class DetailMessageActivity extends DialogEnabledActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
+                LogUtil.d("sunzhiwei----" + FuncString.getPhoneNumber(number));
                 //商户号码判断底部菜单布局,不为空说明有底部菜单
-                menuList = Menu.find(Menu.class, "number = ?", number);
-                companyList = Company.find(Company.class, "number = ?", number);
+                menuList = Menu.find(Menu.class, "number = ?", FuncString.getPhoneNumber(number));
+                companyList = Company.find(Company.class, "number = ?", FuncString.getPhoneNumber(number));
                 LogUtil.d("sunzhiwei---infos start");
                 List<MessageInfo> infos = DBUtil.getDetailMessages(mContext, threadId);
                 LogUtil.d("sunzhiwei---infos end");
-                List<Model> models = Model.find(Model.class, "number = ?", number);
+                List<Model> models = Model.find(Model.class, "number = ?", FuncString.getPhoneNumber(number));
                 detailMessagesAdapter = new DetailMessageAdapter(mContext, infos, models);
                 LogUtil.d("sunzhiwei---detailMessagesAdapter");
             } catch (Exception e) {

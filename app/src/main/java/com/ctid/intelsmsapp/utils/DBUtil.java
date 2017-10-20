@@ -86,7 +86,7 @@ public class DBUtil {
                 phoneAndUnread[0]存放电话号码
                 根据号码查询本地db，获取商户信息（商户名称，图标等）
                 */
-                List<Company> companyList = Company.find(Company.class, "number = ?", phoneAndUnread[0]);
+                List<Company> companyList = Company.find(Company.class, "number = ?", FuncString.getPhoneNumber(phoneAndUnread[0]));
                 if (companyList != null && companyList.size() > 0) {
                     Company company = companyList.get(0);
                     if (company != null && company.getTitle() != null) {
@@ -244,7 +244,7 @@ public class DBUtil {
 
                 MessageInfo smsinfo = new MessageInfo();
                 //将信息会话的信息内容和信息类型（收到或发出）存入infos中
-                List<Company> companies = Company.find(Company.class, "number = ?", detailMessagesCursor.getString(phoneNumberColumn));
+                List<Company> companies = Company.find(Company.class, "number = ?", FuncString.getPhoneNumber(detailMessagesCursor.getString(phoneNumberColumn)));
                 if(companies != null && companies.size() > 0){
                     smsinfo.setContactName(companies.get(0).getTitle());
                 }
