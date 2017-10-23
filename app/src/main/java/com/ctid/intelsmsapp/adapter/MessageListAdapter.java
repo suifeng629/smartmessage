@@ -2,8 +2,6 @@ package com.ctid.intelsmsapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -16,16 +14,11 @@ import com.ctid.intelsmsapp.bean.MessageHolder;
 import com.ctid.intelsmsapp.bean.MessageInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -80,7 +73,7 @@ public class MessageListAdapter extends BaseAdapter {
     }
 
     public View getView(final int position, View convertView, android.view.ViewGroup parent) {
-        MessageHolder messageHolder = null;
+        MessageHolder messageHolder;
 
         //判断convertView是否已创建，若已存在则不必重新创建新视图，节省系统资源
         if (convertView == null) {
@@ -164,20 +157,5 @@ public class MessageListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
-        }
-    }
 }
