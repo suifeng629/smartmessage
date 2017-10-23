@@ -1,6 +1,7 @@
 package com.ctid.intelsmsapp.net.impl;
 
 import com.ctid.intelsmsapp.net.HttpControllerService;
+import com.ctid.intelsmsapp.utils.LogUtil;
 import com.ctid.intelsmsapp.utils.http.CallHttpClient;
 
 /**
@@ -17,6 +18,7 @@ public class HttpControllerServiceImpl implements HttpControllerService {
 			try {
 			 retSrc = CallHttpClient.callPost(url,params, 10000);
 			 System.out.println(retSrc);
+				LogUtil.d("executeHttpsPost-http请求结果信息："+retSrc);
 			}catch (Exception e) {
 				e.printStackTrace();
 //				LogUtil.d("http请求异常信息："+e.getMessage());

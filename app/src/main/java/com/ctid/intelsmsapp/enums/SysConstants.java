@@ -14,8 +14,9 @@ public class SysConstants {
     /**
      * 智能短信数据平台访问url
      * 本地： http://172.16.142.111:9080/w/service/apk/
+     * 测试：http://test.wuyou189.com/ctid_policy/service/apk/
      */
-    public static final String INTEL_SMS_SERVERS_URL = "http://test.wuyou189.com/ctid_policy/service/apk/";
+    public static final String INTEL_SMS_SERVERS_URL = "http://192.168.155.1/w/service/apk/";
 
     /**
      * 数据同步类型：1：自动

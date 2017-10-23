@@ -59,12 +59,14 @@ public class SynDataServiceImpl implements ISynDataService {
                 this.synDataToLocalDB(dataList, dataSynType);
             } else {
                 flag = false;
-                System.out.println("同步程序未获取到平台数据！dataSynType=" + dataSynType);
+                LogUtil.d("同步程序未获取到平台数据！dataSynType=" + dataSynType);
+//                System.out.println("同步程序未获取到平台数据！dataSynType=" + dataSynType);
             }
         } catch (Exception e) {
             e.printStackTrace();
             flag = false;
-            System.out.println("同步程序发送异常：dataSynType=" + dataSynType + ",info=" + e.getMessage());
+            LogUtil.d("同步程序发送异常：dataSynType=" + dataSynType + ",info=" + e.getMessage());
+//            System.out.println("同步程序发送异常：dataSynType=" + dataSynType + ",info=" + e.getMessage());
         }
         return flag;
     }
@@ -82,15 +84,17 @@ public class SynDataServiceImpl implements ISynDataService {
             //发起请求，获取数据
             conn = new HttpControllerServiceImpl();
             String synData = conn.executeHttpsPost(SysConstants.INTEL_SMS_SERVERS_URL, null);
-            System.out.println("同步数据请求结果为：" + synData);
+//            System.out.println("同步数据请求结果为：" + synData);
+            LogUtil.d("同步数据请求结果为：" + synData);
 
             //String json数据转换为List<ReturnDataVo>
             Gson gson = new Gson();
             dataList = gson.fromJson(synData, new TypeToken<List<ReturnDataVo>>() {
             }.getType());
+            LogUtil.d("json数据转换为List<ReturnDataVo>完毕！");
         } catch (Exception e) {
-            //	LogUtil.d("http请求异常信息："+e.getMessage());
-            e.printStackTrace();
+            	LogUtil.d("http请求异常信息："+e.getMessage());
+//            e.printStackTrace();
         }
         return dataList;
     }
@@ -106,8 +110,8 @@ public class SynDataServiceImpl implements ISynDataService {
             dataList = gson.fromJson(synData, new TypeToken<List<ReturnDataVo>>() {
             }.getType());
         } catch (Exception e) {
-            //	LogUtil.d("http请求异常信息："+e.getMessage());
-            e.printStackTrace();
+            	LogUtil.d("http请求异常信息："+e.getMessage());
+//            e.printStackTrace();
         }
         return dataList;
     }
@@ -121,17 +125,23 @@ public class SynDataServiceImpl implements ISynDataService {
      * @throws Exception
      */
     private void synDataToLocalDB(List<ReturnDataVo> dataList, int dataSynType) throws Exception {
+        if(dataList == null){
+            LogUtil.d("synDataToLocalDB-dataList为空!");
+            return;
+        }
+
         //实例化数据库操作类
         CompanyDao companyDao = new CompanyDaoImpl();
         SdkMenuDao sdkMenuDao = new SdkMenuDaoImpl();
         SmsModelDao smsModelDao = new SmsModelDaoImpl();
-
+        LogUtil.d("synDataToLocalDB-dataSynType="+dataSynType);
         //1 .如果手动更新，直接删除库，再更新
         if (dataSynType == SysConstants.DATA_SYN_TYPE_HAND) {
             companyDao.deleteAll();
             sdkMenuDao.deleteAll();
             smsModelDao.deleteAll();
             //同步数据到本地库
+            LogUtil.d("synDataToLocalDB-同步数据集合到本地库保存开始,size="+dataList.size());
             for (ReturnDataVo data : dataList) {
                 try {
                     this.saveCompany(data, companyDao);
@@ -139,50 +149,63 @@ public class SynDataServiceImpl implements ISynDataService {
                     this.saveSmsModels(data, smsModelDao);
 
                 } catch (Exception e) {
-                    System.out.println("数据保存异常，Number=" + data.getNumber());
+//                    System.out.println("数据保存异常，Number=" + data.getNumber());
+                    LogUtil.d("数据保存异常，Number=" + data.getNumber());
                 }
             }
+            LogUtil.d("synDataToLocalDB-同步数据集合到本地库保存结束,size="+dataList.size());
+
         } else { //2.加载本地数据，如果本地库不存在，保存数据入库
 
+            LogUtil.d("synDataToLocalDB-加载本地数据到本地库保存开始,size="+dataList.size());
             //2.1判断商户数据是否存在
             List<Company> companies = Company.listAll(Company.class);
             if (companies.isEmpty()) {
                 //同步商户数据到本地库
+                LogUtil.d("synDataToLocalDB-本地Company数据保存执行开始,dataList.size="+dataList.size());
                 for (ReturnDataVo data : dataList) {
                     try {
                         this.saveCompany(data, companyDao);
                     } catch (Exception e) {
-                        System.out.println("本地商户数据保存异常，Number=" + data.getNumber());
+//                        System.out.println("本地商户数据保存异常，Number=" + data.getNumber());
+                        LogUtil.d("本地商户数据保存异常，Number=" + data.getNumber());
                     }
                 }
+                LogUtil.d("synDataToLocalDB-本地Company数据保存执行结束,dataList.size="+dataList.size());
             }
 
             //2.2判断菜单数据是否存在
             List<Menu> menus = Menu.listAll(Menu.class);
             if (menus.isEmpty()) {
                 //同步菜单数据到本地库
+                LogUtil.d("synDataToLocalDB-本地Menu数据保存执行开始,dataList.size="+dataList.size());
                 for (ReturnDataVo data : dataList) {
                     try {
                         this.saveMenus(data, sdkMenuDao);
                     } catch (Exception e) {
                         System.out.println("本地菜单数据保存异常，Number=" + data.getNumber());
+                        LogUtil.d("本地菜单数据保存异常，Number=" + data.getNumber());
                     }
                 }
+                LogUtil.d("synDataToLocalDB-本地Company数据保存执行结束,dataList.size="+dataList.size());
             }
 
             //2.3判断模板数据是否存在
             List<Model> models = Model.listAll(Model.class);
             if (models.isEmpty()) {
+                LogUtil.d("synDataToLocalDB-本地Model数据保存执行开始,dataList.size="+dataList.size());
                 //同步模板数据到本地库
                 for (ReturnDataVo data : dataList) {
                     try {
                         this.saveSmsModels(data, smsModelDao);
                     } catch (Exception e) {
-                        System.out.println("本地模板数据保存异常，Number=" + data.getNumber());
+//                        System.out.println("本地模板数据保存异常，Number=" + data.getNumber());
+                        LogUtil.d("本地模板数据保存异常，Number=" + data.getNumber());
                     }
                 }
+                LogUtil.d("synDataToLocalDB-本地Model数据保存执行结束,dataList.size="+dataList.size());
             }
-
+            LogUtil.d("synDataToLocalDB-加载本地数据到本地库保存结束,size="+dataList.size());
         }
 
 
@@ -201,6 +224,7 @@ public class SynDataServiceImpl implements ISynDataService {
         company.setNumId(data.getNumId());
         company.setTitle(data.getTitle());
         companyDao.save(company);
+        LogUtil.d("Company数据保存完成，Number=" + company.getNumId()+"--"+company.getTitle());
     }
 
     /**
@@ -226,10 +250,12 @@ public class SynDataServiceImpl implements ISynDataService {
                     menu.setMenuUrl(s.getMenuUrl());
                     menu.setNumber(s.getNumber());
                     sdkMenuDao.save(menu);
+                    LogUtil.d("Menu数据保存完成，Number=" + menu.getMenuName()+"--"+menu.getNumber());
 //                    menuList.add(menu);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("生成Menu异常：Number=" + data.getNumber() + ",MenuName=" + s.getMenuName() + ",getMenuId=" + s.getMenuId());
+//                    e.printStackTrace();
+//                    System.out.println("生成Menu异常：Number=" + data.getNumber() + ",MenuName=" + s.getMenuName() + ",getMenuId=" + s.getMenuId());
+                    LogUtil.d("生成Menu异常：Number=" + data.getNumber() + ",MenuName=" + s.getMenuName() + ",getMenuId=" + s.getMenuId()+"异常信息："+e.getMessage());
                 }
             }
 
@@ -258,10 +284,12 @@ public class SynDataServiceImpl implements ISynDataService {
                     model.setRegCfg(m.getRegCfg());
                     model.setRegGroup(m.getRegGroup());
                     smsModelDao.save(model);
+                    LogUtil.d("Model数据保存完成，Number=" + model.getNumber()+"--"+model.getContent());
 //                    menuList.add(model);
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("生成model异常，：Number=" + data.getNumber() + ",getContent=" + m.getContent() + ",getNumber=" + m.getNumber() + "cfg=" + m.getRegCfg());
+//                    e.printStackTrace();
+//                    System.out.println("生成model异常，：Number=" + data.getNumber() + ",getContent=" + m.getContent() + ",getNumber=" + m.getNumber() + "cfg=" + m.getRegCfg());
+                    LogUtil.d("生成model异常，：Number=" + data.getNumber() + ",getContent=" + m.getContent() + ",getNumber=" + m.getNumber() + "cfg=" + m.getRegCfg()+",异常信息："+e.getMessage());
                 }
             }
         }
