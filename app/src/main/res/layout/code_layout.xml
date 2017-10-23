@@ -104,11 +104,11 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/help_gray"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:text="@string/copycode"
                     android:textSize="20sp"
+                    android:textColor="@color/model_title_bg"
                     android:textStyle="normal"/>
 
         </LinearLayout>

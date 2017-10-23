@@ -103,15 +103,9 @@ public class MessageListAdapter extends BaseAdapter {
         messageHolder.getTvTime().setText(messageInfoList.get(position).getDate());
 
         String imageUri = messageInfoList.get(position).getPhoneUrl();
-        if (imageUri == null) {
-            messageHolder.getIvImage().setImageBitmap(messageInfoList.get(position).getContactPhoto());
-        } else {
-            final ImageView imageView = messageHolder.getIvImage();
-            imageView.setTag(imageUri);
-            ImageLoader.getInstance().displayImage(imageUri, imageView, imageOptions, animateFirstListener);
-
-        }
-
+        final ImageView imageView = messageHolder.getIvImage();
+        imageView.setTag(imageUri);
+        ImageLoader.getInstance().displayImage(imageUri, imageView, imageOptions, animateFirstListener);
 
         /*
          * 在短信主界面为每个短信会话设置监听事件，当选择点击某条会话时，跳转到显示该会话包含的所有信息记录的页面

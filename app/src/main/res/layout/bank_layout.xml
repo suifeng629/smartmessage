@@ -147,7 +147,6 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="40"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-thin"
                     android:text="@string/bank_buss_desc"
@@ -159,9 +158,8 @@
                     android:id="@+id/bank_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="60"
                     android:fontFamily="sans-serif-light"
-                    android:text="消费"
+                    android:text="【支付宝-消费】发生支付通/快捷支付"
                     android:textSize="@dimen/sms_body_textsize"/>
         </LinearLayout>
         <LinearLayout
