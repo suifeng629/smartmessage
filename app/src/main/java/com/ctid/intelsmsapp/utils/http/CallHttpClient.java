@@ -1,5 +1,7 @@
 package com.ctid.intelsmsapp.utils.http;
 
+import com.ctid.intelsmsapp.utils.LogUtil;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +60,7 @@ public class CallHttpClient {
 			ret = serverInfo.getContent();
 		} catch (IOException e) {
 			e.printStackTrace();
+			LogUtil.d("CallHttpClient-callPost-http请求异常信息："+e.getMessage());
 		}
 		return ret;
 	}
