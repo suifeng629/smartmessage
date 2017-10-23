@@ -36,7 +36,7 @@
             android:layout_height="50dip"
             android:layout_alignLeft="@+id/messageListView"
             android:layout_alignParentBottom="true"
-            android:text="新信息"/>
+            android:text="手动同步数据库"/>
     </RelativeLayout>
 
 </LinearLayout>

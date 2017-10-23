@@ -107,7 +107,7 @@ public class DetailMessageAdapter extends BaseAdapter {
                             //银行
                             convertView = mInflater.inflate(R.layout.bank_layout, null);
                             ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
-                            if(!TextUtils.isEmpty(infos.get(position).getContactName())){
+                            if (!TextUtils.isEmpty(infos.get(position).getContactName())) {
                                 ((TextView) convertView.findViewById(R.id.banktitle)).setText(infos.get(position).getContactName());
                             }
 
@@ -118,14 +118,16 @@ public class DetailMessageAdapter extends BaseAdapter {
                             ((TextView) convertView.findViewById(R.id.bank_5)).setText(modelMap.get("bank_5"));
 
                         } else {
-                            convertView = mInflater.inflate(R.layout.detail_message_list_received_item, null);
+                            convertView = mInflater.inflate(R.layout.layout_receive, null);
+                            ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
                             receivedMessageHolder = new MessageHolder();
                             receivedMessageHolder.setTvDesc((TextView) convertView.findViewById(
                                     R.id.ReceivedDetailMessageTextView));
                             receivedMessageHolder.getTvDesc().setText(infos.get(position).getSmsbody());
                         }
                     } else {//不匹配，夹在默认布局
-                        convertView = mInflater.inflate(R.layout.detail_message_list_received_item, null);
+                        convertView = mInflater.inflate(R.layout.layout_receive, null);
+                        ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
                         receivedMessageHolder = new MessageHolder();
                         receivedMessageHolder.setTvDesc((TextView) convertView.findViewById(
                                 R.id.ReceivedDetailMessageTextView));
@@ -133,7 +135,8 @@ public class DetailMessageAdapter extends BaseAdapter {
                     }
                 } else {
                     //为收到的信息关联格式文件，设置显示格式
-                    convertView = mInflater.inflate(R.layout.detail_message_list_received_item, null);
+                    convertView = mInflater.inflate(R.layout.layout_receive, null);
+                    ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
                     receivedMessageHolder = new MessageHolder();
                     receivedMessageHolder.setTvDesc((TextView) convertView.findViewById(
                             R.id.ReceivedDetailMessageTextView));
@@ -143,7 +146,8 @@ public class DetailMessageAdapter extends BaseAdapter {
                 break;
             case 2:
                 //为发出的信息关联格式文件，设置显示格式
-                convertView = mInflater.inflate(R.layout.detail_message_list_send_item, null);
+                convertView = mInflater.inflate(R.layout.layout_send, null);
+                ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
                 sendMessageHolder = new MessageHolder();
                 sendMessageHolder.setTvDesc((TextView) convertView.findViewById(
                         R.id.SendMessageTextView));
@@ -152,7 +156,8 @@ public class DetailMessageAdapter extends BaseAdapter {
             //若从sms表提取的信息type为其他，说明这是发出的信息
             default:
                 //为发出的信息关联格式文件，设置显示格式
-                convertView = mInflater.inflate(R.layout.detail_message_list_send_item, null);
+                convertView = mInflater.inflate(R.layout.layout_send, null);
+                ((TextView) convertView.findViewById(R.id.time)).setText(infos.get(position).getDate());
                 sendMessageHolder = new MessageHolder();
                 sendMessageHolder.setTvDesc((TextView) convertView.findViewById(
                         R.id.SendMessageTextView));

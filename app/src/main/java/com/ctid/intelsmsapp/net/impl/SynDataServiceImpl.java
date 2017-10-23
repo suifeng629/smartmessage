@@ -21,7 +21,6 @@ import com.ctid.intelsmsapp.utils.LogUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,13 +59,10 @@ public class SynDataServiceImpl implements ISynDataService {
             } else {
                 flag = false;
                 LogUtil.d("同步程序未获取到平台数据！dataSynType=" + dataSynType);
-//                System.out.println("同步程序未获取到平台数据！dataSynType=" + dataSynType);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             flag = false;
             LogUtil.d("同步程序发送异常：dataSynType=" + dataSynType + ",info=" + e.getMessage());
-//            System.out.println("同步程序发送异常：dataSynType=" + dataSynType + ",info=" + e.getMessage());
         }
         return flag;
     }
@@ -84,7 +80,6 @@ public class SynDataServiceImpl implements ISynDataService {
             //发起请求，获取数据
             conn = new HttpControllerServiceImpl();
             String synData = conn.executeHttpsPost(SysConstants.INTEL_SMS_SERVERS_URL, null);
-//            System.out.println("同步数据请求结果为：" + synData);
             LogUtil.d("同步数据请求结果为：" + synData);
 
             //String json数据转换为List<ReturnDataVo>
@@ -94,7 +89,6 @@ public class SynDataServiceImpl implements ISynDataService {
             LogUtil.d("json数据转换为List<ReturnDataVo>完毕！");
         } catch (Exception e) {
             	LogUtil.d("http请求异常信息："+e.getMessage());
-//            e.printStackTrace();
         }
         return dataList;
     }
@@ -111,7 +105,6 @@ public class SynDataServiceImpl implements ISynDataService {
             }.getType());
         } catch (Exception e) {
             	LogUtil.d("http请求异常信息："+e.getMessage());
-//            e.printStackTrace();
         }
         return dataList;
     }
@@ -149,7 +142,6 @@ public class SynDataServiceImpl implements ISynDataService {
                     this.saveSmsModels(data, smsModelDao);
 
                 } catch (Exception e) {
-//                    System.out.println("数据保存异常，Number=" + data.getNumber());
                     LogUtil.d("数据保存异常，Number=" + data.getNumber());
                 }
             }
@@ -167,7 +159,6 @@ public class SynDataServiceImpl implements ISynDataService {
                     try {
                         this.saveCompany(data, companyDao);
                     } catch (Exception e) {
-//                        System.out.println("本地商户数据保存异常，Number=" + data.getNumber());
                         LogUtil.d("本地商户数据保存异常，Number=" + data.getNumber());
                     }
                 }
@@ -199,7 +190,6 @@ public class SynDataServiceImpl implements ISynDataService {
                     try {
                         this.saveSmsModels(data, smsModelDao);
                     } catch (Exception e) {
-//                        System.out.println("本地模板数据保存异常，Number=" + data.getNumber());
                         LogUtil.d("本地模板数据保存异常，Number=" + data.getNumber());
                     }
                 }
@@ -235,9 +225,7 @@ public class SynDataServiceImpl implements ISynDataService {
      */
     private void saveMenus(ReturnDataVo data, SdkMenuDao sdkMenuDao) {
         List<SdkMenu> reqMenus = data.getMenu();
-        List<Menu> menuList = null;
         if (reqMenus != null) {
-            menuList = new ArrayList<Menu>();
             for (SdkMenu s : reqMenus) {
                 try {
                     Menu menu = new Menu();
@@ -251,10 +239,7 @@ public class SynDataServiceImpl implements ISynDataService {
                     menu.setNumber(s.getNumber());
                     sdkMenuDao.save(menu);
                     LogUtil.d("Menu数据保存完成，Number=" + menu.getMenuName()+"--"+menu.getNumber());
-//                    menuList.add(menu);
                 } catch (Exception e) {
-//                    e.printStackTrace();
-//                    System.out.println("生成Menu异常：Number=" + data.getNumber() + ",MenuName=" + s.getMenuName() + ",getMenuId=" + s.getMenuId());
                     LogUtil.d("生成Menu异常：Number=" + data.getNumber() + ",MenuName=" + s.getMenuName() + ",getMenuId=" + s.getMenuId()+"异常信息："+e.getMessage());
                 }
             }
@@ -270,9 +255,7 @@ public class SynDataServiceImpl implements ISynDataService {
      */
     private void saveSmsModels(ReturnDataVo data, SmsModelDao smsModelDao) {
         List<SmsModel> reqSmsModels = data.getModel();
-        List<Model> menuList = null;
         if (reqSmsModels != null) {
-            menuList = new ArrayList<Model>();
             for (SmsModel m : reqSmsModels) {
                 try {
                     Model model = new Model();
@@ -285,10 +268,7 @@ public class SynDataServiceImpl implements ISynDataService {
                     model.setRegGroup(m.getRegGroup());
                     smsModelDao.save(model);
                     LogUtil.d("Model数据保存完成，Number=" + model.getNumber()+"--"+model.getContent());
-//                    menuList.add(model);
                 } catch (Exception e) {
-//                    e.printStackTrace();
-//                    System.out.println("生成model异常，：Number=" + data.getNumber() + ",getContent=" + m.getContent() + ",getNumber=" + m.getNumber() + "cfg=" + m.getRegCfg());
                     LogUtil.d("生成model异常，：Number=" + data.getNumber() + ",getContent=" + m.getContent() + ",getNumber=" + m.getNumber() + "cfg=" + m.getRegCfg()+",异常信息："+e.getMessage());
                 }
             }
