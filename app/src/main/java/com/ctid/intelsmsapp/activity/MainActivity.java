@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.adapter.MessageListAdapter;
 import com.ctid.intelsmsapp.bean.MessageInfo;
+import com.ctid.intelsmsapp.enums.SysConstants;
 import com.ctid.intelsmsapp.net.ISynDataService;
 import com.ctid.intelsmsapp.net.impl.SynDataServiceImpl;
 import com.ctid.intelsmsapp.utils.DBUtil;
@@ -52,7 +53,7 @@ public class MainActivity extends DialogEnabledActivity {
     private void initData() {
         ISynDataService synDataService = new SynDataServiceImpl(this);
         try {
-            synDataService.autoSysPlatDataToLocalDB(3);
+            synDataService.autoSysPlatDataToLocalDB(SysConstants.DATA_SYN_TYPE_IN);
         } catch (Exception e) {
             LogUtil.e(e.toString(), e);
         }
