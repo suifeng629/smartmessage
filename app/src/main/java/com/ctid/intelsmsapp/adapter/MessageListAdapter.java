@@ -35,8 +35,6 @@ public class MessageListAdapter extends BaseAdapter {
 
     //存储所有短信信息的列表
     private List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
-//    private ImageLoaderConfiguration configuration;
-//    ImageLoader imageLoader;
 
     private ImageLoadingListener animateFirstListener = new SimpleImageLoadingListener();
 
@@ -47,8 +45,6 @@ public class MessageListAdapter extends BaseAdapter {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         this.messageInfoList = messageInfoList;
-//        configuration = ImageLoaderConfiguration
-//                .createDefault(mContext);
         imageOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.icon)
                 .showImageForEmptyUri(R.drawable.icon)
@@ -114,28 +110,6 @@ public class MessageListAdapter extends BaseAdapter {
             imageView.setTag(imageUri);
             ImageLoader.getInstance().displayImage(imageUri, imageView, imageOptions, animateFirstListener);
 
-//            imageLoader = ImageLoader.getInstance();
-//            if (!imageLoader.isInited()) {
-//                imageLoader.init(configuration);
-//            }
-//            imageLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
-//                @Override
-//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-//                    super.onLoadingFailed(imageUri, view, failReason);
-//                    imageView.setImageBitmap(BitmapFactory.decodeResource(
-//                            mContext.getResources(), R.drawable.icon));
-//                }
-//
-//                @Override
-//                public void onLoadingComplete(String imageUri, View view,
-//                                              Bitmap loadedImage) {
-//                    super.onLoadingComplete(imageUri, view, loadedImage);
-//                    if (imageView1.getTag() != null && imageUri.equals(imageView1.getTag())) {
-//                        imageView1.setImageBitmap(loadedImage);
-//                    }
-//                }
-//            });
-            //imageLoader.getInstance().displayImage(imageUri, imageView1);
         }
 
 
