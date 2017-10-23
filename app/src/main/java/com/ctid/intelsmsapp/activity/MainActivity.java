@@ -26,6 +26,7 @@ public class MainActivity extends DialogEnabledActivity {
     private MessageListAdapter adapter;
     private Context mContext;
     List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
+    private int dataSynType = 3;
 
 
     @Override
@@ -37,9 +38,11 @@ public class MainActivity extends DialogEnabledActivity {
         newMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                /*Intent intent = new Intent();
                 intent.setClass(MainActivity.this, DataBaseActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
+                dataSynType = 2;
+                new InitDBTask().execute();
             }
         });
 
@@ -50,10 +53,11 @@ public class MainActivity extends DialogEnabledActivity {
         new InitDBTask().execute();
     }
 
-    private void initData() {
+    private void initData(int data_syn_type) {
         ISynDataService synDataService = new SynDataServiceImpl(this);
         try {
-            synDataService.autoSysPlatDataToLocalDB(SysConstants.DATA_SYN_TYPE_IN);
+            LogUtil.d("initData-----dataSynType = " + dataSynType);
+            synDataService.autoSysPlatDataToLocalDB(data_syn_type);
         } catch (Exception e) {
             LogUtil.e(e.toString(), e);
         }
@@ -70,7 +74,7 @@ public class MainActivity extends DialogEnabledActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                initData();
+                initData(dataSynType);
             } catch (Exception e) {
                 LogUtil.e(e.toString(), e);
             }
