@@ -3,22 +3,29 @@ package com.ctid.intelsmsapp.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.ctid.intelsmsapp.R;
 import com.ctid.intelsmsapp.activity.DetailMessageActivity;
 import com.ctid.intelsmsapp.bean.MessageHolder;
 import com.ctid.intelsmsapp.bean.MessageInfo;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,31 +41,41 @@ public class MessageListAdapter extends BaseAdapter {
     private Context mContext = null;
 
     //存储所有短信信息的列表
-    List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
-    ImageLoaderConfiguration configuration;
-    ImageLoader imageLoader;
+    private List<MessageInfo> messageInfoList = new ArrayList<MessageInfo>();
+//    private ImageLoaderConfiguration configuration;
+//    ImageLoader imageLoader;
+
+    private ImageLoadingListener animateFirstListener = new SimpleImageLoadingListener();
+
+    private DisplayImageOptions imageOptions;
 
     //MessageListAdapter初始化构造方法
-    public MessageListAdapter(Context context, List<MessageInfo> messageInfos) {
+    public MessageListAdapter(Context context, List<MessageInfo> messageInfoList) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
-        messageInfoList = messageInfos;
-        configuration = ImageLoaderConfiguration
-                .createDefault(mContext);
+        this.messageInfoList = messageInfoList;
+//        configuration = ImageLoaderConfiguration
+//                .createDefault(mContext);
+        imageOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.icon)
+                .showImageForEmptyUri(R.drawable.icon)
+                .showImageOnFail(R.drawable.icon)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .displayer(new SimpleBitmapDisplayer())
+                .build();
     }
 
     public Object getItem(int arg0) {
-        // TODO Auto-generated method stub
         return arg0;
     }
 
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     public int getCount() {
-        // TODO Auto-generated method stub
         return messageInfoList.size();
     }
 
@@ -93,37 +110,38 @@ public class MessageListAdapter extends BaseAdapter {
         //在信息正文区域绘制信息内容
         messageHolder.getTvDesc().setText(messageInfoList.get(position).getSmsbody());
 
-        messageHolder.getTvCount().setText("" + messageInfoList.get(position).getMessageCout());
+        messageHolder.getTvCount().setText(messageInfoList.get(position).getMessageCout());
         messageHolder.getTvTime().setText(messageInfoList.get(position).getDate());
 
         String imageUri = messageInfoList.get(position).getPhoneUrl();
         if (imageUri == null) {
             messageHolder.getIvImage().setImageBitmap(messageInfoList.get(position).getContactPhoto());
         } else {
-            final ImageView imageView1 = messageHolder.getIvImage();
-            imageView1.setTag(imageUri);
+            final ImageView imageView = messageHolder.getIvImage();
+            imageView.setTag(imageUri);
+            ImageLoader.getInstance().displayImage(imageUri, imageView, imageOptions, animateFirstListener);
 
-            imageLoader = ImageLoader.getInstance();
-            if (!imageLoader.isInited()) {
-                imageLoader.init(configuration);
-            }
-            imageLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    super.onLoadingFailed(imageUri, view, failReason);
-                    imageView1.setImageBitmap(BitmapFactory.decodeResource(
-                            mContext.getResources(), R.drawable.icon));
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view,
-                                              Bitmap loadedImage) {
-                    super.onLoadingComplete(imageUri, view, loadedImage);
-                    if (imageView1.getTag() != null && imageUri.equals(imageView1.getTag())) {
-                        imageView1.setImageBitmap(loadedImage);
-                    }
-                }
-            });
+//            imageLoader = ImageLoader.getInstance();
+//            if (!imageLoader.isInited()) {
+//                imageLoader.init(configuration);
+//            }
+//            imageLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
+//                @Override
+//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//                    super.onLoadingFailed(imageUri, view, failReason);
+//                    imageView.setImageBitmap(BitmapFactory.decodeResource(
+//                            mContext.getResources(), R.drawable.icon));
+//                }
+//
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view,
+//                                              Bitmap loadedImage) {
+//                    super.onLoadingComplete(imageUri, view, loadedImage);
+//                    if (imageView1.getTag() != null && imageUri.equals(imageView1.getTag())) {
+//                        imageView1.setImageBitmap(loadedImage);
+//                    }
+//                }
+//            });
             //imageLoader.getInstance().displayImage(imageUri, imageView1);
         }
 
@@ -144,5 +162,22 @@ public class MessageListAdapter extends BaseAdapter {
         });
 
         return convertView;
+    }
+
+    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            if (loadedImage != null) {
+                ImageView imageView = (ImageView) view;
+                boolean firstDisplay = !displayedImages.contains(imageUri);
+                if (firstDisplay) {
+                    FadeInBitmapDisplayer.animate(imageView, 500);
+                    displayedImages.add(imageUri);
+                }
+            }
+        }
     }
 }
